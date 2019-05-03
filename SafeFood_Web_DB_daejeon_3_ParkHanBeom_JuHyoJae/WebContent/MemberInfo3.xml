@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<members>
+	<member>
+<id>ssafy</id>
+<password>123</password>
+<name>싸피</name>
+<address>대전 유성구 덕명동</address>
+<email>abc123@naver.com</email>
+<phoneNumber>010-1234-5678</phoneNumber>
+<allergy>게,새우</allergy>
+</member>
+
+<member>
+<id>asdfasdf</id>
+<password>3333</password>
+<name>asdfasdf</name>
+<address>asdfasdf</address>
+<email>asdfasdf</email>
+<phoneNumber>fasdfasdf</phoneNumber>
+<allergy>대두</allergy>
+</member>
+
+
+<member>
+<id>hi</id>
+<password>999999</password>
+<name>길동</name>
+<address>대전시</address>
+<email>asdf@gmail.com</email>
+<phoneNumber>010-122-333</phoneNumber>
+<allergy>대두</allergy>
+</member>
+<member>
+<id>dfasdf</id>
+<password>123123</password>
+<name>123123</name>
+<address>123123</address>
+<email>123123</email>
+<phoneNumber>1231231</phoneNumber>
+<allergy>계란흰자</allergy>
+</member>
+</members>
