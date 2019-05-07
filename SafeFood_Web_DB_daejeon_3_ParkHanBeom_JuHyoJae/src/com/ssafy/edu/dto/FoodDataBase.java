@@ -11,9 +11,9 @@ import java.util.Date;
 public class FoodDataBase {
 	private boolean isLog=true;
 	private String DRVIER="com.mysql.cj.jdbc.Driver";
-	private String UURL="jdbc:mysql://localhost:3306/ssafyhrm?useUniCode=yes&characterEncoding=UTF-8&serverTimezone=Asia/Seoul";
-	private String USER="ssafy";
-	private String PWD="ssafy";
+	private String UURL="jdbc:mysql://aws-rds-mysql.cwhaa1hu2hnj.ap-northeast-2.rds.amazonaws.com:3306/ssafy?useUniCode=yes&characterEncoding=UTF-8&serverTimezone=Asia/Seoul";
+	private String USER="hyojae";
+	private String PWD="12345678";
 	public FoodDataBase() {
 		init();
 	}

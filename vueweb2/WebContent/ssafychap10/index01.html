@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="./table.css"/>
+<title>SSAFY</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+<body>
+<div id='app'>
+<div class='headtitle'><h2 >SSAFY HRM</h2></div>
+<div class='search_box'>
+<router-link to = "/route1">사원추가</router-link>
+<router-link to = "/route2">이름으로 찾기</router-link>
+<router-link to = "/route3">아이디로 찾기</router-link>
+<router-link to = "/route4">모든사원 보기</router-link>
+</div>
+
+<router-view></router-view>
+
+</div>
+<script type="text/x-template" id="listhrmtemplate">
+<div>
+사원추가 화면
+<div>
+</script>
+<script type="text/x-template" id="idhrmtemplate">
+<div>
+아이디로 찾기 화면
+<div>
+</script>
+<script type="text/x-template" id="namehrmtemplate">
+<div>
+이름으로 찾기 화면
+<div>
+</script>
+<script type="text/x-template" id="addhrmtemplate">
+<div>
+사원추가 화면
+</div>
+</script>
+
+<script type="text/javascript">
+var listhrm = Vue.component('listhrm',{
+    template: '#listhrmtemplate'
+});
+var idhrm = Vue.component('idhrm',{
+    template: '#idhrmtemplate'
+});
+var detailhrm = Vue.component('detailhrm',{
+    template: '#detailtemplate'
+});
+var namehrm = Vue.component('namehrm',{
+    template: '#namehrmtemplate'
+});
+var addhrm = Vue.component('addhrm',{
+    template: '#addhrmtemplate'
+});
+
+const Route1 = { template: listhrmtemplate}
+const Route2 = { template: idhrmtemplate }
+const Route3 = { template: namehrmtemplate}
+const Route4 = { template: addhrmtemplate }
+const routes = [
+   { path: '/route1', component: Route1 },
+   { path: '/route2', component: Route2 },
+   { path: '/route3', component: Route3 },
+   { path: '/route4', component: Route4 }
+];
+const router = new VueRouter({
+   routes 
+});
+var App=new Vue({
+  el: '#app',
+  router
+})
+ </script>
+</body>
+</html>

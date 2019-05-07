@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>axios</title>
+  <style>
+    body {background-color: #ffffff;}
+    #second  > h2 { margin:auto; padding:0px; text-align:center; color: blue;}	
+    .red {color: red;}
+    #tid {border: 1px; border-color: blue; border-collapse: collapse; margin:auto;text-align:center;}
+  </style>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+</head>
+<body>
+  <div id='second'>
+   <h2>SSAFY SAFE FOOD</h2>
+  </div>
+<div id="app">
+  <section v-if="errored">
+    <p>Error In AJAX Transport </p>
+  </section>
+  <section v-else>
+    <div v-if="loading">Loading...</div>
+	<table id='tid' border='1px'>
+	<tr><td>분류</td><td>이름</td><td>이미지</td></tr>
+    <div v-else>
+    <tr  v-for="emp in info"><td v-html="emp.productGb"></td><td v-html="emp.prdlstNm"><td> <img v-bind:src="emp.imgurl1"/></td></tr>
+    </div>
+</table>
+  </section>
+</div>				
+  <script type="text/javascript">
+  new Vue({
+	  el: '#app',
+	  data:function(){
+	    return {
+	      info: null,
+	      loading: true,
+	      errored: false
+	    }
+	  },
+	  mounted () {
+	    axios
+	      .get('./food.json')
+	      .then(response => (this.info = response.data))
+	      .catch(error => {
+	        console.log(error)
+	        this.errored = true
+	      })
+	      .finally(() => this.loading = false)
+	  }
+	})
+  </script>
+</body>
+</html>

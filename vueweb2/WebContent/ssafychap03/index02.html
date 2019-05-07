@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SSAFY</title>
+  <style type="text/css">
+  #first div {color: blue ;}
+  </style>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+<div id='first'>
+ <div v-html = "title"></div>
+   <div v-if='isL'><h3>{{title}}</h3></div>
+   <div v-else='isL'><h3>{{title}}</h3></div>
+   <div v-show='isL'><h3>{{title}}</h3></div>
+</div>
+<script type="text/javascript">
+  var model = {title : 'SSAFY', isL:true};
+  var first = new Vue({
+      el : '#first',
+      data : model
+   });
+  Vue.config.devtools = true;
+</script>
+</body>
+</html>

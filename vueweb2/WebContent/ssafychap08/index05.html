@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SSAFY</title>
+  <link rel="stylesheet" type="text/css" href="./table.css"/>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+  <style type="text/css">
+  #first div {color: blue ;}
+  svg rect {
+       fill: blue;
+    }
+    svg text {
+       fill: yellow;
+       font: 12px sans-serif;
+       text-anchor: end;
+    }
+  </style>
+</head>
+<body>
+<div id='app'>
+<div class='headtitle'><h2>SSAFY HRM DEPARTMENTS</h2></div>
+<div class='search_box'>
+<a href='./index04.html'>사원추가</a> | 
+<a href='./index03.html'>이름으로 찾기</a> |
+<a href='./index02.html'>아이디로 찾기</a> |
+<a href='./index01.html'>모든사원 보기</a> |
+<a href='./index05.html'>부서별 사원 보기</a>
+</div>
+
+<table class="list_table">
+<col style="width:80%;" />
+<tr>
+<td>
+<svg :width="totalmember()*50" :height="depcountheight()">
+  <template  v-for="(depcount, index) in depcounts">
+    <g :transform="transform(0, index)" @mouseover="showdept(depcount.dept_id)">
+    <rect :width='100*depcount.count' height='29'></rect>
+    <text :x='100*depcount.count' y='15' dy='.35em' >{{depcount.dept_id}}:{{depcount.name}}:{{depcount.count}}명</text>
+    </g>		
+   </template>	
+  </svg>
+</td>
+</tr>
+
+</table>
+<div v-if='showme()'>
+<div class='search_box'>부서별 직원</div>
+<table class='list_table'>
+<col width="10%"><col width="20%">
+<col width="20%"><col width="20%"><col width="10%">
+<tr>
+  <th>사원 아이디</th>
+  <th>사원명</th>
+  <th>부서</th>
+  <th>직책</th>
+  <th>연봉</th>
+</tr>
+<tr v-for="emp in info">
+  <td v-html="emp.id"></td>
+  <td v-html="emp.name"></td>
+  <td v-html="emp.dept_id"></td>
+  <td v-html="emp.title"></td>
+  <td>{{ emp.salary | salarydecimal }}</td>
+  
+</tr>
+</table>
+</div>
+</div>
+<script type="text/javascript">
+   var App=new Vue({
+  el: '#app',
+  data () {
+    return {
+      deptid2:0,
+      depcounts: [],
+      loading: true,
+      errored: false ,
+      info:[]
+    }
+  },
+  methods: {
+	  totalmember(){
+		  var a=0;
+		  for(i=0; i<this.depcounts.length;i++){
+			  a+=this.depcounts[i].count;
+		  }
+		  return a;
+	  },
+      transform(val1, val2) {
+          return `translate(${val1}, ${val2*30})`;
+      },
+      depcountheight(){
+    	  return this.depcounts.length*30;
+      },
+      showme(){
+    	  return this.deptid2!=0;
+      },
+      showdept(deptid){
+    	  //alert(deptid);
+    	  this.deptid2=deptid;
+    	  
+    	  axios
+          .get('http://localhost:8197/ssafyvue/api/findDepartmentsBydeptid/'+deptid)
+          .then(response => (this.info = response.data))
+          .catch(error => {
+            console.log(error)
+            this.errored = true
+          })
+          .finally(() => this.loading = false)
+      }
+  },
+  mounted () {
+    axios
+      .get('http://localhost:8197/ssafyvue/api/findAllDepCounts')
+      //.get('./emp.json')
+      .then(response => (this.depcounts = response.data))
+      .catch(error => {
+        console.log(error)
+        this.errored = true
+      })
+      .finally(() => this.loading = false);
+     // dataViz(this.depcounts);
+  }
+});
+Vue.config.devtools = true;
+ </script>
+</body>
+</html>

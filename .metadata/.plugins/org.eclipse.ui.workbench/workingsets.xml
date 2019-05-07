@@ -10,4 +10,5 @@
 </workingSet>
 <workingSet editPageId="org.eclipse.ui.resourceWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1556849837727_3" label="vueboot" name="vueboot"/>
 <workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1556849809476_2" label="Window Working Set" name="Aggregate for window 1556849809476"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1557197309094_4" label="Window Working Set" name="Aggregate for window 1557197309094"/>
 </workingSetManager>

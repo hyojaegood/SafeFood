@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="./table.css"/>
+<title>SSAFY</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+<div id='app'>
+<div class='headtitle'><h2>SSAFY HRM DEPT</h2></div>
+
+<table class='list_table'>
+<col width="10%"><col width="20%">
+<col width="20%"><col width="20%"><col width="10%">
+<tr>
+  <th>이름</th>
+  <th>짧은이름</th>
+  <th>코드</th>
+  <th>플래그</th>
+  <th>한국이름</th>
+
+
+</tr>
+<tr v-for="dept in depts">
+  <td v-html="dept.name"></td>
+  <td v-html="dept.shortname"></td>
+  <td v-html="dept.code"></td>
+  <td ><img :src="dept.flag"/></td>
+  <td v-html="dept.korname"></td>
+  
+  
+
+ 
+</tr>
+</table>
+
+
+<div class='search_box'>
+<span v-html="deptsid"></span>의 부서원들
+</div>
+<table class='list_table'>
+<col width="10%"><col width="20%">
+<col width="20%"><col width="20%"><col width="10%"><col width="10%">
+<tr>
+  <th>사원 아이디</th>
+  <th>사원명</th>
+  <th>부서</th>
+  <th>직책</th>
+
+  
+</tr>
+<tr v-for="emp in emps">
+  <td v-html="emp.id" ></td>
+  <td v-html="emp.name"></td>
+  <td v-html="emp.dept_id"></td>
+  <td v-html="emp.title"></td>
+  
+
+</tr>
+</table>
+</div>
+
+<script type="text/javascript">
+new Vue({
+  el: '#app',
+  data () {
+    return {
+      deptsid:'',
+      depts: [],
+      emps: [],
+      loading: true,
+      errored: false 
+    }
+  },
+  methods : {
+	  show_detail(deptid){
+		 
+		 this.deptsid=deptid;
+		  axios
+	      .get('http://localhost:8197/ssafyvue/api/findDepartmentsBydeptid/'+deptid)
+	      //.get('./emp.json')
+	      .then(response => (this.emps = response.data))
+	     
+	      .catch(error => {
+	        console.log(error)
+	        this.errored = true
+	      })
+	      .finally(() => this.loading = false);
+		  
+	  }
+  },
+  
+  filters: {
+	   salarydecimal (value) {
+      return value.toFixed(2);
+    }
+  }, 
+  mounted () {
+    axios
+      .get('http://localhost:8197/ssafyvue/api/findAllFlags')
+      //.get('./emp.json')
+      .then(response => (this.depts = response.data))
+      .catch(error => {
+        console.log(error)
+        this.errored = true
+      })
+      .finally(() => this.loading = false);
+  }
+})
+
+
+
+//http://localhost:8197/ssafyvue/api/findDepartmentsBydeptid/101
+ </script>
+</body>
+</html>

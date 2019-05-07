@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="./table.css"/>
+<title>SSAFY</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+<div id='app'>
+<div class='headtitle'><h2>SSAFY HRM DEPT</h2></div>
+
+<table class='list_table'>
+<col width="10%"><col width="20%">
+<col width="20%"><col width="20%"><col width="10%">
+<tr>
+  <th>부서번호</th>
+  <th>부서명</th>
+  <th>지역명</th>
+
+
+</tr>
+<tr v-for="dept in depts">
+  <td v-html="dept.dept_id" @click="show_detail(dept.dept_id)" ></td>
+  <td v-html="dept.name"></td>
+  <td v-html="dept.region_id"></td>
+  
+
+ 
+</tr>
+</table>
+
+
+</div>
+
+<script type="text/javascript">
+new Vue({
+  el: '#app',
+  data () {
+    return {
+      deptsid:'',
+      depts: [],
+      emps: [],
+      loading: true,
+      errored: false 
+    }
+  },
+  methods : {
+	 
+  },
+  
+  filters: {
+	   salarydecimal (value) {
+      return value.toFixed(2);
+    }
+  }, 
+  mounted () {
+    axios
+      .get('http://localhost:8197/ssafyvue/api/findAllFlags')
+      //.get('./emp.json')
+      .then(response => (this.depts = response.data))
+      .catch(error => {
+        console.log(error)
+        this.errored = true
+      })
+      .finally(() => this.loading = false);
+  }
+})
+
+
+
+//http://localhost:8197/ssafyvue/api/findDepartmentsBydeptid/101
+ </script>
+</body>
+</html>

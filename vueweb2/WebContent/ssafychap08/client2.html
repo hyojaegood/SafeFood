@@ -1,0 +1,101 @@
+<html>
+<head>
+  <title>D3 in Action Chapter 5 - Example 3</title>
+  <meta charset="utf-8" />
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="./resource/js/d3.v3.min.js" type="text/JavaScript"></script>
+<script src="./resource/js/colorbrewer.js" type="text/JavaScript"></script>
+</head>
+<style>
+  svg {
+    height: 500px;
+    width: 500px;
+    border: 1px solid gray;
+  }
+  
+</style>
+<body>
+<div id='app'>
+<div>
+  <svg id='viz'>
+  </svg>
+</div>
+<div id="controls" />
+</div>
+</body>
+  <footer>
+    
+<script type="text/javascript">
+function dataViz(incData) {
+    var colorScale = d3.scale.category10([0,1,2,3,4,5,6]);
+    var tot=0;
+    incData.forEach(function (el) {
+    	tot+=el.count;
+    });
+    //console.log("1-------------------------"+tot);
+      pieChart = d3.layout.pie().sort(null);
+      pieChart.value(function(d) {return d.count;});//파이차트에서 보여주려는 값
+      newArc = d3.svg.arc();
+      newArc.outerRadius(200).innerRadius(30);
+
+
+      var svts= d3.select("#viz")
+      .append("g")
+      .attr("transform","translate(250,250)")
+      .selectAll("g")
+      .data(pieChart(incData))
+      .enter()
+      .append("g");
+      
+      svts.append("path")
+      .attr("d", newArc)
+      .style("fill", function(d, i) {return colorScale(i)})
+      .style("opacity", .5)
+      .style("stroke", "black")
+      .style("stroke-width", "2px");
+      
+   // Add the text
+      svts.append("text")
+          .attr("transform", function(d){
+               //newArc.outerRadius(250).innerRadius(200);
+              return "translate(" + newArc.centroid(d) + ")";})
+          .attr("text-anchor", "middle")
+          .text( function(d, i) {return  incData[i].name+": "
+        	  +((incData[i].count/tot*100)).toFixed(2)+"%";});
+    };
+    
+   var App= new Vue({
+      el: '#app',
+      data () {
+        return {
+          deptid2:0,
+          depcounts: [],
+          loading: true,
+          errored: false ,
+          info:[]
+        }
+      },
+      mounted () {
+        axios
+          .get('http://localhost:8197/ssafyvue/api/findAllDepCounts')
+          //.then(response => (this.depcounts = response.data))
+          .then(function(response){
+        	  this.depcounts = response.data;
+        	  //js function 호출
+        	  dataViz(this.depcounts);
+          }) 
+          .catch(error => {
+            console.log(error)
+            this.errored = true
+          })
+          .finally(() => this.loading = false);
+        //dataViz(this.depcounts);
+      }
+    });
+    Vue.config.devtools = true;
+</script>
+  </footer>
+
+</html>

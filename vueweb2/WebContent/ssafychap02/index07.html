@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SSAFY</title>
+  <style type="text/css">
+  #first div {color: blue ;}
+  </style>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+<div id='first'>
+  <svg width="200" height="100">
+     <my-svg ccx="50" ccy="50" cr="40"></my-svg>
+     <my-svg ccx="150" ccy="50" cr="20"></my-svg>
+  </svg>
+    <h3 v-html="title"></h3>
+</div>
+
+<script type="text/javascript">
+ var model = {title : 'SSAFY'};
+  Vue.component('my-svg', {   // 외부 컴포넌트-> globbal, first, second에서 모두 사용가능
+	  props: ['ccx','ccy','cr'],
+	  template: '<circle :cx="ccx" :cy="ccy" :r="cr" stroke="green" stroke-width="4" fill="yellow" />'
+	})
+  var first = new Vue({
+      el : '#first',
+      data : model,
+      beforeCreate: function () {
+     	console.log('beforeCreate title: ' + this.title);
+      },
+      created: function () {
+    	  console.log('created title: ' + this.title);
+   	  },
+   	  beforeMount: function () {
+   		console.log('beforeMount title: ' + this.title);
+  	  },
+  	  mounted: function () {
+  		console.log('mounted title: ' + this.title);
+   	  },
+   	  beforeUpdate: function () {
+   		console.log('beforeUpdate title: ' + this.title);
+   	  },
+   	  updated: function () {
+   		console.log('updated title: ' + this.title);
+   	  },
+   	  beforeDestory: function () {
+   		console.log('beforeDestory title: ' + this.title);
+   	  },   	  
+   	  destory: function () {
+   		console.log('destory title: ' + this.title);
+   	  }
+   });
+  Vue.config.devtools = true;
+</script>
+</body>
+</html>

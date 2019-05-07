@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SSAFY</title>
+  <style type="text/css">
+  #first div {color: blue ;}
+  </style>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+<div id='first'>
+   <div v-html="title"></div>
+   <div><h3>{{title | toH3 }}</h3></div>
+   <div v-if='hasResult'><h3>{{title | toH3 }}</h3></div>
+   <div v-show='hasResult'><h3>{{title | toH3 }}</h3></div>
+</div>
+<script type="text/javascript">
+  var model = {title : 'SSAFY'};
+  var first = new Vue({
+      el : '#first',
+      data : model,
+      filters: {
+    	  toH3 (value) {
+    		 var s="";
+    		   for(i=0;i<3; i++){  s+="SSAFY";  }
+	         return s;
+	       }
+      },
+      computed: { //method와 비슷, cache에 들어감 정적데이터 적합, 
+    	  //method는  cache에 안들어감-동적데이터 적합
+    	  // computed-> 오래간만에 값이 변경된다면 -> 지켜보던 watched가 변경 반영해줌
+    	  // method는 매번 불림, 매번 반영
+   	    hasResult: function () {
+   	      return this.title.length>10;
+   	    }
+      }
+   });
+  Vue.config.devtools = true;
+ </script>
+</body>
+</html>
